@@ -74,8 +74,6 @@ public class LogInsertionService {
                 .map(line -> logLineAdapter.adapt(line))
                 .collect(Collectors.toList());
 
-        return logLines.stream()
-                .map(log -> logRepository.upsertLogLine(log))
-                .reduce(true, (x,y)-> x && y);
+        return logRepository.upsertLogLines(logLines);
     }
 }

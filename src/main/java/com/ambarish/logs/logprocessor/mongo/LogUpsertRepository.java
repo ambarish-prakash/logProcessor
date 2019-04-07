@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface LogUpsertRepository {
 
-    boolean upsertLogLine(LogLine logLine);
+    boolean upsertLogLines(List<LogLine> logLines);
 
     List<LogLine> findAllEntriesForTimestamp(String oType, String oId, Long ts);
 

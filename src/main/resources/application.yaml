@@ -15,7 +15,7 @@ spring:
 
 app:
   upload:
-    batchSize: 100
+    batchSize: 200
     threadPoolSize: 10
 
 server:
