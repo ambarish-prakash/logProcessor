@@ -1,10 +1,11 @@
 spring:
   profiles:
     active: dev
+  data:
+    mongodb:
+      host: ec2-13-59-252-195.us-east-2.compute.amazonaws.com
+      port: 27017
+      database: logStore
 
 server:
   port: 8090
-
-app:
-  greeting:
-    name: "Ambi"
