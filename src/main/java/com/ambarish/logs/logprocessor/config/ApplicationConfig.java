@@ -4,11 +4,15 @@ package com.ambarish.logs.logprocessor.config;
 import com.ambarish.logs.logprocessor.adapter.LogLineAdapter;
 import com.ambarish.logs.logprocessor.service.LogInsertionService;
 import com.ambarish.logs.logprocessor.service.StatusRetrivalService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ApplicationConfig {
+
+    @Value("${app.upload.batchSize}")
+    int batchSize;
 
     @Bean
     StatusRetrivalService statusRetrivalService(){
@@ -17,7 +21,7 @@ public class ApplicationConfig {
 
     @Bean
     LogInsertionService logInsertionService(){
-        return new LogInsertionService();
+        return new LogInsertionService(batchSize);
     }
 
     @Bean

@@ -6,6 +6,17 @@ spring:
       host: ec2-13-59-252-195.us-east-2.compute.amazonaws.com
       port: 27017
       database: logStore
+  servlet:
+    multipart:
+      enabled: true
+#      file-size: 2KB
+      max-file-size: 2MB
+#      max-request-size: 3MB
+
+app:
+  upload:
+    batchSize: 2
 
 server:
   port: 8090
+
