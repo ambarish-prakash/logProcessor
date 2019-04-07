@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import java.util.List;
+
 
 public class LogUpsertRepositoryImpl implements LogUpsertRepository {
 
@@ -27,5 +29,16 @@ public class LogUpsertRepositoryImpl implements LogUpsertRepository {
         mongoTemplate.upsert(query,update,LogLine.class);
 
         return true;
+    }
+
+    @Override
+    public List<LogLine> findAllEntriesForTimestamp(String oType, String oId, Long ts) {
+
+        Query query = new Query();
+        query.addCriteria(Criteria.where("oType").is(oType)
+                .and("oId").is(oId)
+                .and("ts").lte(ts));
+
+        return mongoTemplate.find(query,LogLine.class);
     }
 }

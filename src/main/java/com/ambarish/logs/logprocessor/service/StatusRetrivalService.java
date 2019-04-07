@@ -2,27 +2,30 @@ package com.ambarish.logs.logprocessor.service;
 
 import com.ambarish.logs.logprocessor.model.LogLine;
 import com.ambarish.logs.logprocessor.model.response.StatusResponse;
+import com.ambarish.logs.logprocessor.mongo.LogRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class StatusRetrivalService {
 
+    @Autowired
+    LogRepository logRepository;
+
     public String getStatusForOrder(String oType, String oId,long ts){
 
-        //call db to get rows for that ordertpye and orderid
-        List<LogLine> logLinesForOrder = getMockOrders(oType,oId);
+        List<LogLine> logLinesForOrder = logRepository.findAllEntriesForTimestamp(oType,oId,ts);
 
         Map<String,String> statuses = new HashMap<>();
         for (LogLine entry: logLinesForOrder ) {
             String msg = entry.getMsg();
             Map<String,String> entryStatus = getKeyValueFromJsonString(msg);
-            entryStatus.forEach((k,v) -> statuses.put(k,v));
+            entryStatus.forEach(statuses::put);
         }
 
         return StatusResponse.builder().oStatus(statuses).build().toString();
@@ -37,14 +40,5 @@ public class StatusRetrivalService {
             e.printStackTrace();
         }
         return entryStatus;
-    }
-
-    private List<LogLine> getMockOrders(String oType, String oId){
-        List<LogLine> mockObjs = new LinkedList<>();
-
-        mockObjs.add(LogLine.builder().msg("{\"customer_name\":\"Jack\",\"customer_address\":\"Trade St.\",\"status\":\"unpaid\"}").build());
-        mockObjs.add(LogLine.builder().msg("{\"status\":\"paid\",\"ship_date\":\"2017-01-18\",\"shipping_provider\":\"DHL\"}").build());
-
-        return mockObjs;
     }
 }
