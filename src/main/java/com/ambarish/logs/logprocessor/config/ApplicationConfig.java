@@ -8,11 +8,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Configuration
 public class ApplicationConfig {
 
     @Value("${app.upload.batchSize}")
     int batchSize;
+
+    @Value("${app.upload.threadPoolSize}")
+    int threadPoolSize;
 
     @Bean
     StatusRetrivalService statusRetrivalService(){
@@ -20,13 +26,18 @@ public class ApplicationConfig {
     }
 
     @Bean
-    LogInsertionService logInsertionService(){
-        return new LogInsertionService(batchSize);
+    LogInsertionService logInsertionService(ExecutorService executorService){
+        return new LogInsertionService(executorService,batchSize);
     }
 
     @Bean
     LogLineAdapter logLineAdapter(){
         return new LogLineAdapter();
+    }
+
+    @Bean
+    ExecutorService executorService(){
+        return Executors.newFixedThreadPool(threadPoolSize);
     }
 
 }

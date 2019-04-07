@@ -15,7 +15,8 @@ spring:
 
 app:
   upload:
-    batchSize: 2
+    batchSize: 100
+    threadPoolSize: 10
 
 server:
   port: 8090

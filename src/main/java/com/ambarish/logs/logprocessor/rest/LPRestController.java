@@ -30,6 +30,9 @@ public class LPRestController {
     @PostMapping("/uploadFile")
     public Boolean uploadFile(@RequestParam("file") MultipartFile file) {
         logger.info("Received request to load file");
-        return logInsertionService.storeLogFile(file);
+        long startTime = System.currentTimeMillis();
+        Boolean uploadSuccessful = logInsertionService.storeLogFile(file);
+        logger.info("Processed file in " + (System.currentTimeMillis() - startTime) + "ms" );
+        return uploadSuccessful;
     }
 }
