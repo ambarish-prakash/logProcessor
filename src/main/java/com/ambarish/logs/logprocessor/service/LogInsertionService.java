@@ -17,6 +17,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
+/***
+ * Service to handle persistence of logs
+ */
 public class LogInsertionService {
 
     Logger logger = LoggerFactory.getLogger(LogInsertionService.class);
@@ -35,6 +38,11 @@ public class LogInsertionService {
     @Autowired
     LogLineAdapter logLineAdapter;
 
+    /***
+     * function to persist log file. parallelize lines into batch inserts
+     * @param file multipart csv file
+     * @return successful or not
+     */
     public Boolean storeLogFile(MultipartFile file)
     {
         Boolean uploadSuccessful = true;
@@ -65,7 +73,12 @@ public class LogInsertionService {
         return uploadSuccessful;
     }
 
-    public boolean insertLines(List<String> logLineStrings){
+    /***
+     * Converts string of log into logline object and inserts into db using repository
+     * @param logLineStrings list of lines from log file
+     * @return successful or not
+     */
+    private boolean insertLines(List<String> logLineStrings){
 
         logger.info("Processing log string batch of size " + logLineStrings.size());
 
