@@ -6,6 +6,9 @@ spring:
       host: ec2-13-59-252-195.us-east-2.compute.amazonaws.com
       port: 27017
       database: logStore
+      username: admin
+      password: change #to the actual password
+      authentication-database: admin
   servlet:
     multipart:
       enabled: true
