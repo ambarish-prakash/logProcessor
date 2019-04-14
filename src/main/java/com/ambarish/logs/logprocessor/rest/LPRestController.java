@@ -18,7 +18,7 @@ import java.util.Map;
  * Rest controller for the endpoints
  */
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class LPRestController {
 
     Logger logger = LoggerFactory.getLogger(LPRestController.class);
